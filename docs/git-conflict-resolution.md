@@ -217,15 +217,20 @@ For this repository, we recommend the following workflow:
 ### Common Error Solutions
 
 #### "fatal: empty string is not a valid pathspec"
-This occurs when you use `git add` with empty parameters:
+This occurs when you use `git add` with an empty string or incorrect parameters:
 ```bash
-# Wrong:
+# Wrong - empty string:
+git add ''
+
+# Wrong - trailing double dash without a file:
 git add -A --
 
 # Correct:
 git add -A
 # or
 git add .
+# or (for specific files):
+git add filename.txt
 ```
 
 #### "refusing to merge unrelated histories"
@@ -242,4 +247,4 @@ git pull origin <branch-name> --allow-unrelated-histories
 
 ---
 
-**Need more help?** Open an issue on the [GitHub repository](https://github.com/Helhum-coder/vscode-live-server-plus-plus/issues).
+**Need more help?** Open an issue on the GitHub repository or consult the official Git documentation.
