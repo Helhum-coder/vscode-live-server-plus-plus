@@ -42,6 +42,14 @@
 
 [Click here to read settings Docs](./docs/settings.md).
 
+## Troubleshooting
+
+Having issues? [Check out our troubleshooting guide](./docs/TROUBLESHOOTING.md) for solutions to common problems including:
+- macOS file system errors (EROFS)
+- Git conflicts and divergent branches
+- Port conflicts
+- Missing files
+
 ## What's new ?
 
 - ### v0.0.1 (##DATE##)
