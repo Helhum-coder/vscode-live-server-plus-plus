@@ -42,6 +42,10 @@
 
 [Click here to read settings Docs](./docs/settings.md).
 
+## Contributing
+
+If you encounter Git conflicts or divergent branches while contributing, see our [Git Conflict Resolution Guide](./docs/git-conflict-resolution.md).
+
 ## What's new ?
 
 - ### v0.0.1 (##DATE##)
