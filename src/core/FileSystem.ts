@@ -72,7 +72,7 @@ const getDirtyFileFromVscode = (filePath: string) => {
   return vscode.workspace.textDocuments.find(
     doc => {
       const normalizedDocPath = path.normalize(path.resolve(doc.fileName));
-      return doc.isDirty && normalizedDocPath === normalizedFilePath && isSupportedFile(filePath);
+      return doc.isDirty && normalizedDocPath === normalizedFilePath && isSupportedFile(normalizedFilePath);
     }
   );
 };
