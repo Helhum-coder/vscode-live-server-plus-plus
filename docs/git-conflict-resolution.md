@@ -217,12 +217,13 @@ For this repository, we recommend the following workflow:
 ### Common Error Solutions
 
 #### "fatal: empty string is not a valid pathspec"
-This occurs when you use `git add` with an empty string or incorrect parameters:
+This occurs when you use `git add` with an empty string or incorrect parameters. Git interprets an empty string as an invalid file path specification:
 ```bash
-# Wrong - empty string:
+# Wrong - empty string (invalid file path):
 git add ''
 
-# Wrong - trailing double dash without a file:
+# Wrong - double dash separator without pathspecs:
+# The -- separates options from file paths, but no paths are provided after it
 git add -A --
 
 # Correct:
