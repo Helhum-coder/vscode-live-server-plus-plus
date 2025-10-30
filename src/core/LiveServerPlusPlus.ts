@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import * as http from 'http';
-import * as WebSocket from 'ws';
+import WebSocket = require('ws');
 import * as path from 'path';
 import { IncomingMessage, ServerResponse } from 'http';
 import { readFileStream } from './FileSystem';
@@ -79,7 +79,7 @@ export class LiveServerPlusPlus implements ILiveServerPlusPlus {
       await this.listenServer();
       this.registerOnChangeReload();
       this.goLiveEvent.fire({ LSPP: this });
-    } catch (error) {
+    } catch (error: any) {
       if (error.code === 'EADDRINUSE') {
         return this.serverErrorEvent.fire({
           LSPP: this,
@@ -123,9 +123,15 @@ export class LiveServerPlusPlus implements ILiveServerPlusPlus {
   private init(config: ILiveServerPlusPlusConfig) {
     this.cwd = config.cwd;
     this.indexFile = config.indexFile || 'index.html';
-    this.port = config.port || 9000;
+    // Force specific port to avoid conflicts (avoid 4040, 3000, 8080)
+    this.port = config.port && config.port !== 4040 ? config.port : 5555;
     this.debounceTimeout = config.debounceTimeout || 400;
     this.reloadingStrategy = config.reloadingStrategy || 'hot';
+    
+    // Log configuration for debugging
+    console.log(`🚀 LiveServer++ initialized on port: ${this.port}`);
+    console.log(`📁 Working directory: ${this.cwd}`);
+    console.log(`🎯 Index file: ${this.indexFile}`);
   }
 
   private registerOnChangeReload() {
@@ -167,7 +173,7 @@ export class LiveServerPlusPlus implements ILiveServerPlusPlus {
     return 'reload';
   }
 
-  private listenServer() {
+  private listenServer(): Promise<void> {
     return new Promise((resolve, reject) => {
       if (!this.cwd) {
         const error = new LSPPError('CWD is not defined', 'cwdUndefined');
@@ -187,7 +193,7 @@ export class LiveServerPlusPlus implements ILiveServerPlusPlus {
     });
   }
 
-  private closeServer() {
+  private closeServer(): Promise<void> {
     return new Promise((resolve, reject) => {
       this.server!.close(err => {
         return err ? reject(err) : resolve();
@@ -196,10 +202,10 @@ export class LiveServerPlusPlus implements ILiveServerPlusPlus {
     });
   }
 
-  private closeWs() {
+  private closeWs(): Promise<void> {
     return new Promise((resolve, reject) => {
       if (!this.ws) return resolve();
-      this.ws.close(err => (err ? reject(err) : resolve()));
+      this.ws.close((err?: Error) => (err ? reject(err) : resolve()));
     });
   }
 
