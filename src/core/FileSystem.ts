@@ -1,4 +1,5 @@
 import * as fs from 'fs';
+import * as path from 'path';
 import * as vscode from 'vscode';
 import { Readable } from 'stream';
 import { Buffer } from 'buffer';
@@ -67,7 +68,11 @@ const readFileFromFileSystem = (filePath: string) => {
 // Private Utils
 
 const getDirtyFileFromVscode = (filePath: string) => {
+  const normalizedFilePath = path.normalize(path.resolve(filePath));
   return vscode.workspace.textDocuments.find(
-    doc => doc.isDirty && doc.fileName === filePath && isSupportedFile(filePath)
+    doc => {
+      const normalizedDocPath = path.normalize(path.resolve(doc.fileName));
+      return doc.isDirty && normalizedDocPath === normalizedFilePath && isSupportedFile(filePath);
+    }
   );
 };
