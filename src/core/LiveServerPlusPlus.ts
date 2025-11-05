@@ -79,8 +79,8 @@ export class LiveServerPlusPlus implements ILiveServerPlusPlus {
       await this.listenServer();
       this.registerOnChangeReload();
       this.goLiveEvent.fire({ LSPP: this });
-    } catch (error: any) {
-      if (error.code === 'EADDRINUSE') {
+    } catch (error) {
+      if ((error as any).code === 'EADDRINUSE') {
         return this.serverErrorEvent.fire({
           LSPP: this,
           code: 'portAlreadyInUse',
@@ -90,8 +90,8 @@ export class LiveServerPlusPlus implements ILiveServerPlusPlus {
 
       return this.serverErrorEvent.fire({
         LSPP: this,
-        code: error.code,
-        message: error.message
+        code: (error as any).code,
+        message: (error as any).message
       });
     }
   }
